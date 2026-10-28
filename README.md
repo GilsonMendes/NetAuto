@@ -42,7 +42,11 @@ Para reproduzir o laboratório, importe [docs/LAB-AUTOMATION-pnetlab.zip](docs/L
 | P3 ↔ P4 | `10.10.34.0/30` |
 | P4 ↔ PE-2 (AS 500) | `200.10.24.0/30` |
 
-O P2 possui a interface `e0/2` conectada à nuvem **MGMT AUTOMATION**; é por ela que a API alcança o dispositivo (`10.255.0.2`).
+### Rede de gerência (out-of-band)
+
+Todos os roteadores possuem uma **VRF MGMT** com OSPF 100 (área 0), isolada do plano de dados. O P2 recebe a rede de gerência pela `e0/2` (DHCP, nuvem **MGMT AUTOMATION**) e propaga as Loopbacks de gerência aos demais pelas subinterfaces `.3999` (dot1Q 3999) das `e0/0` e `e0/1`.
+
+A API acessa o P2 via SSH em `10.255.0.2` (Loopback100, VRF MGMT). Configuração de referência: [docs/configs/P2.cfg](docs/configs/P2.cfg). Usuário `cisco` (privilégio 15), SSH v2 e `login local` nas linhas VTY.
 
 ## Configuração
 Os padrões (`10.255.0.2`, `cisco/cisco`) são de um laboratório. Para outro dispositivo, copie `.env.example` para `.env` e ajuste.
