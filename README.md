@@ -31,6 +31,8 @@ Acesse `http://localhost:8000/show-comands`.
 
 ![Topologia do laboratório](docs/topologia.png)
 
+Para reproduzir o laboratório, importe [docs/LAB-AUTOMATION-pnetlab.zip](docs/LAB-AUTOMATION-pnetlab.zip) no PNETLab (imagens: IOL L3 e vIOS-L2). O export contém apenas a topologia; o endereçamento das interfaces deve ser configurado nos equipamentos.
+
 | Link | Rede |
 |------|------|
 | PE-1 (AS 300) ↔ P1 | `100.10.11.0/30` |
