@@ -2,7 +2,7 @@ import os
 
 from dotenv import load_dotenv
 from fastapi import FastAPI, Request
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles 
 from devices.devices import Device 
@@ -21,7 +21,7 @@ if os.getenv("DEVICE_SECRET"):
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="templates/style"), name="static")
-templetes = Jinja2Templates(directory="templates")
+templates = Jinja2Templates(directory="templates")
 
 device_manager = Device()
 
@@ -29,8 +29,8 @@ device_manager = Device()
 async def main():
     return {"MSN": "API no AR"}
 
-@app.get("/show-comands", response_class=HTMLResponse)
-async def run_comands(request: Request):
+@app.get("/show-commands", response_class=HTMLResponse)
+async def run_commands(request: Request):
     comandos_para_rodar = ["sh clock", "sh ip int br"]
     output_data = device_manager.send_show_command(device, comandos_para_rodar)
 
@@ -40,12 +40,15 @@ async def run_comands(request: Request):
         "resultados": output_data
     }
 
-    return templetes.TemplateResponse(request=request, name="index.html", context=context)
+    return templates.TemplateResponse(request=request, name="index.html", context=context)
+
+
+@app.get("/show-comands", include_in_schema=False)
+async def legacy_route():
+    # Mantém links antigos funcionando
+    return RedirectResponse(url="/show-commands")
 
 
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
-   
-    
-

@@ -19,13 +19,13 @@ pip install -r requirements.txt
 cd src
 python main.py
 ```
-Acesse `http://localhost:8000/show-comands`.
+Acesse `http://localhost:8000/show-commands`.
 
 ## Endpoints
 | Rota | Descrição |
 |------|-----------|
 | `GET /` | Health check |
-| `GET /show-comands` | Executa `sh clock` e `sh ip int br` e renderiza o resultado |
+| `GET /show-commands` | Executa `sh clock` e `sh ip int br` e renderiza o resultado |
 
 ## Laboratório de teste (PNETLab)
 
