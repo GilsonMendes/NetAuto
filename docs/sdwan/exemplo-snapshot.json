@@ -1,0 +1,456 @@
+{
+  "collected_at": "2026-11-10T20:30:00+00:00",
+  "manager": "https://199.1.1.2:443",
+  "devices": [
+    {
+      "host-name": "Managen-1",
+      "device-type": "vmanage",
+      "system-ip": "10.255.0.10",
+      "site-id": "10",
+      "version": "20.18.2",
+      "reachability": "reachable"
+    },
+    {
+      "host-name": "Controller-1",
+      "device-type": "vsmart",
+      "system-ip": "10.255.0.20",
+      "site-id": "10",
+      "version": "20.18.2",
+      "reachability": "reachable"
+    },
+    {
+      "host-name": "Validator-1",
+      "device-type": "vbond",
+      "system-ip": "10.255.0.30",
+      "site-id": "10",
+      "version": "20.18.2",
+      "reachability": "reachable"
+    },
+    {
+      "host-name": "Edge-1",
+      "device-type": "vedge",
+      "system-ip": "10.255.0.1",
+      "site-id": "100",
+      "version": "17.18.02.0.4112",
+      "reachability": "reachable"
+    },
+    {
+      "host-name": "Edge-2",
+      "device-type": "vedge",
+      "system-ip": "10.255.0.2",
+      "site-id": "102",
+      "version": "17.18.02.0.4112",
+      "reachability": "reachable"
+    }
+  ],
+  "inventory": [
+    {
+      "system-ip": "10.255.0.1",
+      "configStatusMessage": "In Sync",
+      "configOperationMode": "vmanage"
+    },
+    {
+      "system-ip": "10.255.0.2",
+      "configStatusMessage": "In Sync",
+      "configOperationMode": "vmanage"
+    },
+    {
+      "system-ip": "10.255.0.10",
+      "configStatusMessage": "-",
+      "configOperationMode": "cli"
+    },
+    {
+      "system-ip": "10.255.0.20",
+      "configStatusMessage": "In Sync",
+      "configOperationMode": "vmanage"
+    },
+    {
+      "system-ip": "10.255.0.30",
+      "configStatusMessage": "-",
+      "configOperationMode": "cli"
+    }
+  ],
+  "per_device": {
+    "10.255.0.10": {
+      "control": [
+        {
+          "peer-type": "vsmart",
+          "system-ip": "10.255.0.20",
+          "local-color": "default",
+          "state": "up",
+          "uptime": "0:06:25:10"
+        },
+        {
+          "peer-type": "vbond",
+          "system-ip": "0.0.0.0",
+          "local-color": "default",
+          "state": "up",
+          "uptime": "0:06:25:12"
+        }
+      ],
+      "local": [
+        {
+          "certificate-status": "Installed",
+          "certificate-validity": "Valid",
+          "certificate-not-valid-after": "Nov  5 22:10:00 2027 GMT"
+        }
+      ]
+    },
+    "10.255.0.20": {
+      "control": [
+        {
+          "peer-type": "vmanage",
+          "system-ip": "10.255.0.10",
+          "local-color": "default",
+          "state": "up",
+          "uptime": "0:06:25:10"
+        },
+        {
+          "peer-type": "vbond",
+          "system-ip": "0.0.0.0",
+          "local-color": "default",
+          "state": "up",
+          "uptime": "0:06:25:11"
+        },
+        {
+          "peer-type": "vedge",
+          "system-ip": "10.255.0.1",
+          "local-color": "default",
+          "state": "up",
+          "uptime": "0:02:15:40"
+        },
+        {
+          "peer-type": "vedge",
+          "system-ip": "10.255.0.2",
+          "local-color": "default",
+          "state": "up",
+          "uptime": "0:02:10:02"
+        }
+      ],
+      "local": [
+        {
+          "certificate-status": "Installed",
+          "certificate-validity": "Valid",
+          "certificate-not-valid-after": "Nov  6 00:12:00 2027 GMT"
+        }
+      ]
+    },
+    "10.255.0.30": {
+      "control": [
+        {
+          "peer-type": "vmanage",
+          "system-ip": "10.255.0.10",
+          "local-color": "default",
+          "state": "up",
+          "uptime": "0:06:25:12"
+        },
+        {
+          "peer-type": "vsmart",
+          "system-ip": "10.255.0.20",
+          "local-color": "default",
+          "state": "up",
+          "uptime": "0:06:25:11"
+        }
+      ],
+      "local": [
+        {
+          "certificate-status": "Installed",
+          "certificate-validity": "Valid",
+          "certificate-not-valid-after": "Nov  6 00:05:00 2027 GMT"
+        }
+      ]
+    },
+    "10.255.0.1": {
+      "control": [
+        {
+          "peer-type": "vsmart",
+          "system-ip": "10.255.0.20",
+          "local-color": "mpls",
+          "state": "up",
+          "uptime": "0:02:15:40"
+        },
+        {
+          "peer-type": "vsmart",
+          "system-ip": "10.255.0.20",
+          "local-color": "biz-internet",
+          "state": "up",
+          "uptime": "0:02:15:40"
+        },
+        {
+          "peer-type": "vbond",
+          "system-ip": "0.0.0.0",
+          "local-color": "mpls",
+          "state": "up",
+          "uptime": "0:02:15:40"
+        },
+        {
+          "peer-type": "vbond",
+          "system-ip": "0.0.0.0",
+          "local-color": "biz-internet",
+          "state": "up",
+          "uptime": "0:02:15:40"
+        },
+        {
+          "peer-type": "vmanage",
+          "system-ip": "10.255.0.10",
+          "local-color": "mpls",
+          "state": "up",
+          "uptime": "0:02:15:40"
+        }
+      ],
+      "local": [
+        {
+          "certificate-status": "Installed",
+          "certificate-validity": "Valid",
+          "certificate-not-valid-after": "Nov  7 14:47:32 2028 GMT"
+        }
+      ],
+      "bfd": [
+        {
+          "system-ip": "10.255.0.2",
+          "site-id": "102",
+          "local-color": "mpls",
+          "color": "mpls",
+          "state": "up",
+          "uptime": "0:02:14:58",
+          "transitions": "1"
+        },
+        {
+          "system-ip": "10.255.0.2",
+          "site-id": "102",
+          "local-color": "mpls",
+          "color": "biz-internet",
+          "state": "up",
+          "uptime": "0:02:14:58",
+          "transitions": "1"
+        },
+        {
+          "system-ip": "10.255.0.2",
+          "site-id": "102",
+          "local-color": "biz-internet",
+          "color": "mpls",
+          "state": "up",
+          "uptime": "0:02:14:58",
+          "transitions": "1"
+        },
+        {
+          "system-ip": "10.255.0.2",
+          "site-id": "102",
+          "local-color": "biz-internet",
+          "color": "biz-internet",
+          "state": "up",
+          "uptime": "0:02:14:58",
+          "transitions": "1"
+        }
+      ],
+      "sla_classes": [
+        {
+          "index": 0,
+          "name": "__all_tunnels__",
+          "loss": "-",
+          "latency": "-",
+          "jitter": "-"
+        },
+        {
+          "index": 1,
+          "name": "SLA-CRITICO",
+          "loss": 1,
+          "latency": 100,
+          "jitter": 30
+        }
+      ],
+      "approute": [
+        {
+          "src-ip": "20.20.21.2",
+          "dst-ip": "20.20.22.2",
+          "remote-system-ip": "10.255.0.2",
+          "local-color": "mpls",
+          "remote-color": "mpls",
+          "sla-class-index": "0,1",
+          "mean-loss": 0,
+          "mean-latency": 2,
+          "mean-jitter": 1
+        },
+        {
+          "src-ip": "20.20.21.2",
+          "dst-ip": "40.40.42.2",
+          "remote-system-ip": "10.255.0.2",
+          "local-color": "mpls",
+          "remote-color": "biz-internet",
+          "sla-class-index": "0,1",
+          "mean-loss": 0,
+          "mean-latency": 3,
+          "mean-jitter": 1
+        },
+        {
+          "src-ip": "40.40.41.2",
+          "dst-ip": "20.20.22.2",
+          "remote-system-ip": "10.255.0.2",
+          "local-color": "biz-internet",
+          "remote-color": "mpls",
+          "sla-class-index": "0,1",
+          "mean-loss": 0,
+          "mean-latency": 3,
+          "mean-jitter": 1
+        },
+        {
+          "src-ip": "40.40.41.2",
+          "dst-ip": "40.40.42.2",
+          "remote-system-ip": "10.255.0.2",
+          "local-color": "biz-internet",
+          "remote-color": "biz-internet",
+          "sla-class-index": "0,1",
+          "mean-loss": 0,
+          "mean-latency": 2,
+          "mean-jitter": 1
+        }
+      ]
+    },
+    "10.255.0.2": {
+      "control": [
+        {
+          "peer-type": "vsmart",
+          "system-ip": "10.255.0.20",
+          "local-color": "mpls",
+          "state": "up",
+          "uptime": "0:02:15:40"
+        },
+        {
+          "peer-type": "vsmart",
+          "system-ip": "10.255.0.20",
+          "local-color": "biz-internet",
+          "state": "up",
+          "uptime": "0:02:15:40"
+        },
+        {
+          "peer-type": "vbond",
+          "system-ip": "0.0.0.0",
+          "local-color": "mpls",
+          "state": "up",
+          "uptime": "0:02:15:40"
+        },
+        {
+          "peer-type": "vbond",
+          "system-ip": "0.0.0.0",
+          "local-color": "biz-internet",
+          "state": "up",
+          "uptime": "0:02:15:40"
+        },
+        {
+          "peer-type": "vmanage",
+          "system-ip": "10.255.0.10",
+          "local-color": "mpls",
+          "state": "up",
+          "uptime": "0:02:15:40"
+        }
+      ],
+      "local": [
+        {
+          "certificate-status": "Installed",
+          "certificate-validity": "Valid",
+          "certificate-not-valid-after": "Nov  7 18:37:49 2028 GMT"
+        }
+      ],
+      "bfd": [
+        {
+          "system-ip": "10.255.0.1",
+          "site-id": "100",
+          "local-color": "mpls",
+          "color": "mpls",
+          "state": "up",
+          "uptime": "0:02:14:58",
+          "transitions": "1"
+        },
+        {
+          "system-ip": "10.255.0.1",
+          "site-id": "100",
+          "local-color": "mpls",
+          "color": "biz-internet",
+          "state": "up",
+          "uptime": "0:02:14:58",
+          "transitions": "1"
+        },
+        {
+          "system-ip": "10.255.0.1",
+          "site-id": "100",
+          "local-color": "biz-internet",
+          "color": "mpls",
+          "state": "up",
+          "uptime": "0:02:14:58",
+          "transitions": "1"
+        },
+        {
+          "system-ip": "10.255.0.1",
+          "site-id": "100",
+          "local-color": "biz-internet",
+          "color": "biz-internet",
+          "state": "up",
+          "uptime": "0:02:14:58",
+          "transitions": "1"
+        }
+      ],
+      "sla_classes": [
+        {
+          "index": 0,
+          "name": "__all_tunnels__",
+          "loss": "-",
+          "latency": "-",
+          "jitter": "-"
+        },
+        {
+          "index": 1,
+          "name": "SLA-CRITICO",
+          "loss": 1,
+          "latency": 100,
+          "jitter": 30
+        }
+      ],
+      "approute": [
+        {
+          "src-ip": "20.20.22.2",
+          "dst-ip": "20.20.21.2",
+          "remote-system-ip": "10.255.0.1",
+          "local-color": "mpls",
+          "remote-color": "mpls",
+          "sla-class-index": "0",
+          "mean-loss": 9,
+          "mean-latency": 163,
+          "mean-jitter": 40
+        },
+        {
+          "src-ip": "20.20.22.2",
+          "dst-ip": "40.40.41.2",
+          "remote-system-ip": "10.255.0.1",
+          "local-color": "mpls",
+          "remote-color": "biz-internet",
+          "sla-class-index": "0",
+          "mean-loss": 9,
+          "mean-latency": 168,
+          "mean-jitter": 41
+        },
+        {
+          "src-ip": "40.40.42.2",
+          "dst-ip": "20.20.21.2",
+          "remote-system-ip": "10.255.0.1",
+          "local-color": "biz-internet",
+          "remote-color": "mpls",
+          "sla-class-index": "0,1",
+          "mean-loss": 0,
+          "mean-latency": 0,
+          "mean-jitter": 0
+        },
+        {
+          "src-ip": "40.40.42.2",
+          "dst-ip": "40.40.41.2",
+          "remote-system-ip": "10.255.0.1",
+          "local-color": "biz-internet",
+          "remote-color": "biz-internet",
+          "sla-class-index": "0,1",
+          "mean-loss": 0,
+          "mean-latency": 0,
+          "mean-jitter": 0
+        }
+      ]
+    }
+  }
+}
