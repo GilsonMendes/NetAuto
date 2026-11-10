@@ -26,6 +26,7 @@ Acesse `http://localhost:8000/show-commands`.
 |------|-----------|
 | `GET /` | Health check |
 | `GET /show-commands` | Executa `sh clock` e `sh ip int br` e renderiza o resultado |
+| `GET /sdwan/report` | Relatório Day 2 do Catalyst SD-WAN (somente leitura) |
 
 ## Laboratório de teste (PNETLab)
 
@@ -50,3 +51,32 @@ A API acessa o P2 via SSH em `10.255.0.2` (Loopback100, VRF MGMT). Configuraçã
 
 ## Configuração
 Os padrões (`10.255.0.2`, `cisco/cisco`) são de um laboratório. Para outro dispositivo, copie `.env.example` para `.env` e ajuste.
+
+## Módulo SD-WAN: relatório Day 2 (somente leitura)
+
+Consulta a API REST do **Cisco Catalyst SD-WAN Manager** e gera um relatório do estado da rede, sem alterar nenhuma configuração. O único `POST` é o login; todo o resto é `GET` em `/dataservice`.
+
+O relatório mostra, para cada dispositivo:
+- alcançabilidade, versão, modo (`cli`/`vmanage`) e sincronismo da configuração;
+- conexões de controle (Validator, Controller e Manager por color);
+- sessões BFD entre os Edges;
+- túneis dentro e fora de cada SLA class do App-Aware Routing (`sla-class-index`);
+- validade dos certificados (alerta com menos de 30 dias).
+
+### Uso
+```bash
+cp .env.example .env          # preencha VMANAGE_HOST / USERNAME / PASSWORD
+cd src
+python sdwan_report.py                          # resumo no terminal + HTML em reports/
+python sdwan_report.py --dump lab.snapshot.json # salva também os JSON brutos do Manager
+python sdwan_report.py --from-json ../docs/sdwan/exemplo-snapshot.json   # sem acessar o Manager
+```
+Código de saída: `0` OK, `1` atenção, `2` falha. Isso permite agendar no `cron` ou usar em CI.
+
+Pela API: `http://localhost:8000/sdwan/report`.
+
+### Ambiente testado
+- Catalyst SD-WAN 20.18.2 (Manager, Validator, Controller) e C8000V 17.18.2 em controller-mode
+- Lab no GNS3 3.0.6: DC com controladores e dois sites (Curitiba e Rio de Janeiro) com MPLS e Internet
+
+O arquivo `docs/sdwan/exemplo-snapshot.json` traz um snapshot do lab durante um teste de degradação do link MPLS (dois túneis fora da SLA-CRITICO).

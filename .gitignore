@@ -13,3 +13,7 @@ venv/
 .idea/
 .DS_Store
 Thumbs.db
+
+# Relatórios e snapshots gerados
+src/reports/
+*.snapshot.json

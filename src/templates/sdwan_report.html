@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Relatório SD-WAN Day 2</title>
+<style>
+  :root {
+    --bg: #f4f6f9; --card: #ffffff; --ink: #172033; --muted: #5d6b7f; --line: #dfe4ec;
+    --navy: #0b2545; --ok: #1f8f4e; --ok-bg: #e5f5ec; --warn: #a86400; --warn-bg: #fff3dc;
+    --bad: #b3261e; --bad-bg: #fde7e5; --chip: #eef2f7;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0f1420; --card: #171e2c; --ink: #e6ebf3; --muted: #9aa7ba; --line: #2a3446;
+      --navy: #0b2545; --ok: #55d28b; --ok-bg: #133524; --warn: #f2b45a; --warn-bg: #3a2c12;
+      --bad: #ff8a80; --bad-bg: #3d1a18; --chip: #222c3d;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+         font: 14px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  header { background: var(--navy); color: #fff; padding: 28px 32px; }
+  header h1 { margin: 0 0 4px; font-size: 24px; }
+  header p { margin: 0; color: #b9c8de; }
+  main { max-width: 1200px; margin: 0 auto; padding: 24px 16px 48px; }
+  .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; margin-bottom: 24px; }
+  .kpi { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; }
+  .kpi .v { font-size: 26px; font-weight: 700; }
+  .kpi .l { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .04em; }
+  section { background: var(--card); border: 1px solid var(--line); border-radius: 10px;
+            padding: 18px 20px; margin-bottom: 20px; }
+  h2 { font-size: 17px; margin: 0 0 12px; }
+  h3 { font-size: 14px; margin: 18px 0 8px; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+  .scroll { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+  th, td { text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  th { font-size: 12px; color: var(--muted); font-weight: 600; }
+  .badge { display: inline-block; padding: 2px 9px; border-radius: 999px; font-weight: 700; font-size: 12px; }
+  .OK { color: var(--ok); background: var(--ok-bg); }
+  .ATENÇÃO { color: var(--warn); background: var(--warn-bg); }
+  .FALHA { color: var(--bad); background: var(--bad-bg); }
+  .up { color: var(--ok); font-weight: 600; }
+  .down { color: var(--bad); font-weight: 600; }
+  .chip { display: inline-block; background: var(--chip); border-radius: 6px; padding: 1px 7px; margin-right: 4px; font-size: 12px; }
+  .edge-head { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; }
+  .meta { color: var(--muted); }
+  ul.issues { margin: 8px 0 0; padding-left: 18px; }
+  footer { color: var(--muted); font-size: 12px; text-align: center; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Relatório SD-WAN Day 2 <span class="badge {{ r.overall }}">{{ r.overall }}</span></h1>
+  <p>Manager {{ r.manager }} · coletado em {{ r.collected_at }} · somente leitura</p>
+</header>
+<main>
+
+  <div class="kpis">
+    <div class="kpi"><div class="v">{{ r.devices|length }}</div><div class="l">Dispositivos</div></div>
+    <div class="kpi"><div class="v">{{ r.totals.OK }}</div><div class="l">OK</div></div>
+    <div class="kpi"><div class="v">{{ r.totals["ATENÇÃO"] }}</div><div class="l">Atenção</div></div>
+    <div class="kpi"><div class="v">{{ r.totals.FALHA }}</div><div class="l">Falha</div></div>
+    {% set tun = r.edges|map(attribute='tunnels')|sum(start=[]) %}
+    <div class="kpi"><div class="v">{{ tun|selectattr('ok')|list|length }}/{{ tun|length }}</div><div class="l">Túneis dentro da SLA</div></div>
+  </div>
+
+  <section>
+    <h2>Visão geral</h2>
+    <div class="scroll"><table>
+      <tr><th>Status</th><th>Hostname</th><th>Tipo</th><th>System-IP</th><th>Site</th><th>Versão</th>
+          <th>Controle</th><th>BFD</th><th>Configuração</th><th>Modo</th><th>Certificado</th></tr>
+      {% for d in r.devices %}
+      <tr>
+        <td><span class="badge {{ d.status }}">{{ d.status }}</span></td>
+        <td><strong>{{ d.hostname }}</strong></td><td>{{ d.type }}</td><td>{{ d.system_ip }}</td>
+        <td>{{ d.site }}</td><td>{{ d.version }}</td>
+        <td>{{ d.control_up }}/{{ d.control|length }}</td>
+        <td>{% if d.is_edge %}{{ d.bfd_up }}/{{ d.bfd|length }}{% else %}—{% endif %}</td>
+        <td>{{ d.sync }}</td><td>{{ d.mode }}</td>
+        <td>{{ d.cert_expires }}{% if d.cert_days is not none %} <span class="meta">({{ d.cert_days }} dias)</span>{% endif %}</td>
+      </tr>
+      {% endfor %}
+    </table></div>
+    {% set probs = [] %}
+    {% for d in r.devices %}{% for i in d.issues %}{% set _ = probs.append(d.hostname ~ ': ' ~ i) %}{% endfor %}{% endfor %}
+    {% if probs %}
+      <h3>Pontos de atenção</h3>
+      <ul class="issues">{% for p in probs %}<li>{{ p }}</li>{% endfor %}</ul>
+    {% endif %}
+  </section>
+
+  {% for e in r.edges %}
+  <section>
+    <div class="edge-head">
+      <h2>{{ e.hostname }} <span class="meta">· site {{ e.site }} · {{ e.system_ip }}</span></h2>
+      <span class="badge {{ e.status }}">{{ e.status }}</span>
+    </div>
+
+    <h3>Conexões de controle</h3>
+    <div class="scroll"><table>
+      <tr><th>Peer</th><th>System-IP</th><th>Color local</th><th>Estado</th><th>Uptime</th></tr>
+      {% for c in e.control %}
+      <tr><td>{{ c.peer }}</td><td>{{ c.peer_ip }}</td><td><span class="chip">{{ c.color }}</span></td>
+          <td class="{{ 'up' if c.state == 'up' else 'down' }}">{{ c.state }}</td><td>{{ c.uptime }}</td></tr>
+      {% else %}<tr><td colspan="5" class="meta">Sem dados</td></tr>{% endfor %}
+    </table></div>
+
+    <h3>Sessões BFD</h3>
+    <div class="scroll"><table>
+      <tr><th>Remoto</th><th>Site</th><th>Color local</th><th>Color remota</th><th>Estado</th><th>Uptime</th><th>Transições</th></tr>
+      {% for b in e.bfd %}
+      <tr><td>{{ b.remote }}</td><td>{{ b.site }}</td><td><span class="chip">{{ b.local_color }}</span></td>
+          <td><span class="chip">{{ b.remote_color }}</span></td>
+          <td class="{{ 'up' if b.state == 'up' else 'down' }}">{{ b.state }}</td><td>{{ b.uptime }}</td><td>{{ b.transitions }}</td></tr>
+      {% else %}<tr><td colspan="7" class="meta">Sem dados</td></tr>{% endfor %}
+    </table></div>
+
+    <h3>Túneis × SLA (App-Aware Routing)</h3>
+    {% if e.sla_classes %}<p class="meta">
+      {% for s in e.sla_classes %}<span class="chip">{{ s.name }}: perda ≤ {{ s.loss }}% · latência ≤ {{ s.latency }} ms · jitter ≤ {{ s.jitter }} ms</span>{% endfor %}
+    </p>{% endif %}
+    <div class="scroll"><table>
+      <tr><th>Túnel</th><th>Remoto</th><th>Perda média</th><th>Latência média</th><th>Jitter médio</th><th>SLA atendida</th><th>Fora da SLA</th></tr>
+      {% for t in e.tunnels %}
+      <tr><td><span class="chip">{{ t.local_color }}</span>→ <span class="chip">{{ t.remote_color }}</span></td>
+          <td>{{ t.remote }}</td><td>{{ t.loss }}%</td><td>{{ t.latency }} ms</td><td>{{ t.jitter }} ms</td>
+          <td class="up">{{ t.sla_met|join(', ') or '—' }}</td>
+          <td class="down">{{ t.sla_missing|join(', ') or '—' }}</td></tr>
+      {% else %}<tr><td colspan="7" class="meta">Sem dados de app-route</td></tr>{% endfor %}
+    </table></div>
+  </section>
+  {% endfor %}
+
+  <footer>Gerado pelo NetAuto · módulo sdwan · consultas somente leitura à API do Catalyst SD-WAN Manager</footer>
+</main>
+</body>
+</html>
